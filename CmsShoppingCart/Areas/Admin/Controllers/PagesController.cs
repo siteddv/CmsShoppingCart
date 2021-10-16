@@ -27,7 +27,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             return View(pagesList);
         }
 
-        // GET /admin/details/id
+        // GET /admin/pages/details/id
         public async Task<IActionResult> Details(int id)
         {
             var page = await _context.Pages.FirstOrDefaultAsync(p => p.Id == id);
@@ -37,5 +37,8 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
 
             return View(page);
         }
+
+        // GET /admin/pages/create
+        public IActionResult Create(int id) => View();
     }
 }
