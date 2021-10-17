@@ -85,7 +85,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return View(page);
 
-            page.Slug = page.Id == 1 
+            page.Slug = page.Id == 1
                 ? page.Slug 
                 : page.Title.ToLower().Replace(" ", "-");
 
