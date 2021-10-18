@@ -89,5 +89,25 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
 
             return RedirectToAction("Edit", new { Id = category.Id });
         }
+
+        // GET /admin/categories/delete/id
+        public async Task<IActionResult> Delete(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+            {
+                TempData["Error"] = "The category does not exist!";
+            }
+            else
+            {
+                _context.Categories.Remove(category);
+                await _context.SaveChangesAsync();
+
+                TempData["Success"] = "The category has been deleted!";
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
