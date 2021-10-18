@@ -5,6 +5,10 @@
     {
       "library": "ckeditor5@30.0.0",
       "destination": "wwwroot/lib/ckeditor5/"
+    },
+    {
+      "library": "jqueryui@1.12.1",
+      "destination": "wwwroot/lib/jqueryui/"
     }
   ]
 }
