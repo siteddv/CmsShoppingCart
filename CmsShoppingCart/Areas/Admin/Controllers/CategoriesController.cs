@@ -53,5 +53,41 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+        // GET /admin/categories/edit/id
+        public async Task<IActionResult> Edit(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
+                return NotFound();
+
+            return View(category);
+        }
+
+        // POST /admin/categories/create
+        [HttpPost]
+        public async Task<IActionResult> Edit(Category category)
+        {
+            if (!ModelState.IsValid)
+                return View(category);
+
+            category.Slug = category.Name.ToLower().Replace(" ", "-");
+
+            var slug = await _context.Categories.FirstOrDefaultAsync(x => x.Id != category.Id && x.Slug == category.Slug);
+
+            if (slug != null)
+            {
+                ModelState.AddModelError("", "The category already exists.");
+                return View(category);
+            }
+
+            _context.Update(category);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "The category has been edited!";
+
+            return RedirectToAction("Edit", new { Id = category.Id });
+        }
     }
 }
