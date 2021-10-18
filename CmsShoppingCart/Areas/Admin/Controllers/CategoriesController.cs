@@ -1,5 +1,8 @@
 ﻿using CmsShoppingCart.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CmsShoppingCart.Areas.Admin.Controllers
 {
@@ -13,9 +16,11 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var categories = await _context.Categories.OrderBy(x => x.Sorting).ToListAsync();
+
+            return View(categories);
         }
     }
 }
