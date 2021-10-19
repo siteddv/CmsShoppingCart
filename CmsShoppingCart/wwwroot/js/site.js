@@ -2,7 +2,7 @@
 
     if ($("a.confirmDeletion").length) {
         $("a.confirmDeletion").click( () => {
-            if (!confirm("Do you realy want to delete this page?")) return false;
+            if (!confirm("Do you realy want to delete it?")) return false;
         });
     }
 

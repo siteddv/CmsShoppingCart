@@ -39,7 +39,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
         }
 
         // GET /admin/pages/create
-        public IActionResult Create(int id) => View();
+        public IActionResult Create() => View();
 
         // POST /admin/pages/create
         [HttpPost]
@@ -67,7 +67,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET /admin/pages/details/id
+        // GET /admin/pages/edit/id
         public async Task<IActionResult> Edit(int id)
         {
             var page = await _context.Pages.FindAsync(id);
