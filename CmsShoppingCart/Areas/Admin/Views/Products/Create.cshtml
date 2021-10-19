@@ -38,6 +38,7 @@
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
                 <input asp-for="ImageUpload" class="form-control" />
+                <img src="" id="imgPreview" alt="Picture for product"/>
                 <span asp-validation-for="ImageUpload" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -60,5 +61,9 @@
             .catch(error => {
                 console.error(error);
             });
+
+        $("#ImageUpload").change(function () {
+            readUrl(this);
+        });
     </script>
 }
