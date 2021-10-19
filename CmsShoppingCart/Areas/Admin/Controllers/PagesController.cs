@@ -20,9 +20,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
         // GET /admin/pages
         public async Task<IActionResult> Index()
         {
-            var pages = from p in _context.Pages orderby p.Sorting select p;
-
-            var pagesList = await pages.ToListAsync();
+            var pagesList = await _context.Pages.ToListAsync();
 
             return View(pagesList);
         }
@@ -49,7 +47,6 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 return View(page);
 
             page.Slug = page.Title.ToLower().Replace(" ", "-");
-            page.Sorting = 100;
 
             var slug = await _context.Pages.FirstOrDefaultAsync(x => x.Slug == page.Slug);
             

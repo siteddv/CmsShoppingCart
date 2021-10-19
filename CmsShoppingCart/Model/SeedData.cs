@@ -23,29 +23,25 @@ namespace CmsShoppingCart.Model
                 {
                     Title = "Home",
                     Slug = "home",
-                    Content = "home page",
-                    Sorting = 0
+                    Content = "home page"
                 },
                 new Page
                 {
                     Title = "About us",
                     Slug = "about-us",
-                    Content = "about us page",
-                    Sorting = 100
+                    Content = "about us page"
                 },
                 new Page
                 {
                     Title = "Services",
                     Slug = "services",
-                    Content = "Services page",
-                    Sorting = 100
+                    Content = "Services page"
                 },
                 new Page
                 {
                     Title = "Contact",
                     Slug = "contact",
-                    Content = "contact page",
-                    Sorting = 100
+                    Content = "contact page"
                 }
             );
 

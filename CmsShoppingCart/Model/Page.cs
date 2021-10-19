@@ -17,7 +17,5 @@ namespace CmsShoppingCart.Model
 
         [Required, MinLength(4, ErrorMessage = "Minimum length is 4")]
         public string Content { get; set; }
-
-        public int Sorting { get; set; }
     }
 }

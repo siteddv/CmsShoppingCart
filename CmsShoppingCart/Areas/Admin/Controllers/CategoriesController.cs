@@ -20,7 +20,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
         // GET /admin/categories
         public async Task<IActionResult> Index()
         {
-            var categories = await _context.Categories.OrderBy(x => x.Sorting).ToListAsync();
+            var categories = await _context.Categories.ToListAsync();
 
             return View(categories);
         }
@@ -36,7 +36,6 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 return View(category);
 
             category.Slug = category.Name.ToLower().Replace(" ", "-");
-            category.Sorting = 100;
 
             var slug = await _context.Categories.FirstOrDefaultAsync(x => x.Slug == category.Slug);
 
