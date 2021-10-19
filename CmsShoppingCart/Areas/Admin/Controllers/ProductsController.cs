@@ -1,5 +1,6 @@
 ﻿using CmsShoppingCart.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,12 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        // GET /admin/products
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var pagesList = await _context.Products.Include(x => x.Category).ToListAsync();
+
+            return View(pagesList);
         }
     }
 }
