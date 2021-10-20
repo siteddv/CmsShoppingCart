@@ -24,17 +24,17 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
         }
 
         // GET /admin/products
-        public async Task<IActionResult> Index(int pageNumber = 1)
+        public async Task<IActionResult> Index(int p = 1)
         {
             var pageSize = 6;
 
             var products = await _context.Products
                 .Include(x => x.Category)
-                .Skip((pageNumber - 1) * pageSize)
+                .Skip((p - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            ViewBag.PageNumber = pageNumber;
+            ViewBag.PageNumber = p;
             ViewBag.PageRange = pageSize;
             ViewBag.TotalPages = (int)Math.Ceiling((decimal)_context.Products.Count() / pageSize);
 
