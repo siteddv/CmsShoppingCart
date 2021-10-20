@@ -94,6 +94,17 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
         {
             var category = await _context.Categories.FindAsync(id);
 
+            var categoryProducts = await _context.Products.Where(p => p.CategoryId == id).ToListAsync();
+
+            foreach(var product in categoryProducts)
+            {
+                product.Category = null;
+                product.CategoryId = null;
+
+                _context.Update(product);
+                await _context.SaveChangesAsync();
+            }
+
             if (category == null)
             {
                 TempData["Error"] = "The category does not exist!";
