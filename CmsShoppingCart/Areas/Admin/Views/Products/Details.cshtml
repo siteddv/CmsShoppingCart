@@ -4,44 +4,44 @@
     ViewData["Title"] = "Product Details";
 }
 
-<h1>Details</h1>
+<h1>Product Details</h1>
 
 <div>
     <h4>Product Details</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            Name
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Model.Name
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Slug)
+            Slug
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Slug)
+            @Model.Slug
         </dd>
         <dt class="col-sm-2">
+            Description
+        </dt>
+        <dd class="col-sm-10">
             @Html.Raw(Model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Price)
+            Price
         </dt>
         <dd class="col-sm-10">
             @Model.Price.ToString("C2")
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Category)
+            Category
         </dt>
         <dd class="col-sm-10">
             @Model.Category.Name
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
+            Image
         </dt>
         <dd class="col-sm-10">
             <img src="~/media/products/@Model.Image" width="200" alt="Product image" />

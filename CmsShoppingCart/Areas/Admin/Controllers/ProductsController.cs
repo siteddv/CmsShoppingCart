@@ -77,7 +77,8 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             if(product.ImageUpload != null)
             {
                 var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/products");
-                imageName = $"{Guid.NewGuid().ToString()}_{product.ImageUpload.FileName}";
+                imageName = $"{Guid.NewGuid()}_{product.ImageUpload.FileName}";
+                product.Image = imageName;
                 var filePath = Path.Combine(uploadDir, imageName);
 
                 using (var fs = new FileStream(filePath, FileMode.Create))
