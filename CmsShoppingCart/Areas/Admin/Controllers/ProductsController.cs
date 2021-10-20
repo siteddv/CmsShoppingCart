@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using File = System.IO.File;
 
 namespace CmsShoppingCart.Areas.Admin.Controllers
 {
@@ -102,6 +103,73 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 return NotFound();
 
             return View(product);
+        }
+
+        // GET /admin/products/edit/id
+        public async Task<IActionResult> Edit(int id)
+        {
+            var categories = await _context.Categories.ToListAsync();
+
+
+            var product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+
+            ViewBag.CategoryId = new SelectList(categories, "Id", "Name", product.CategoryId);
+
+            return product == null ? NotFound() : View(product);
+        }
+
+        // POST /admin/products/edit/id
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, Product newProduct)
+        {
+            var oldProduct = await _context.Products.FindAsync(id);
+
+            var categories = await _context.Categories.ToListAsync();
+
+            ViewBag.CategoryId = new SelectList(categories, "Id", "Name", oldProduct.CategoryId);
+
+            if (!ModelState.IsValid)
+                return View(newProduct);
+
+            oldProduct.Slug = newProduct.Name.ToLower().Replace(" ", "-");
+
+            var slug = await _context.Products
+                .Where(p => p.Id != oldProduct.Id)
+                .FirstOrDefaultAsync(x => x.Slug == oldProduct.Slug);
+
+            if (slug != null)
+            {
+                ModelState.AddModelError("", "The product already exists.");
+                return View(newProduct);
+            }
+
+            if (newProduct.ImageUpload != null)
+            {
+                var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/products");
+
+                if(!string.Equals(newProduct.ImageUpload.FileName, "noimage.png"))
+                {
+                    var oldImagePath = Path.Combine(uploadDir, oldProduct.Image);
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+
+                var imageName = $"{Guid.NewGuid()}_{newProduct.ImageUpload.FileName}";
+                oldProduct.Image = imageName;
+                var filePath = Path.Combine(uploadDir, imageName);
+
+                using (var fs = new FileStream(filePath, FileMode.Create))
+                    await newProduct.ImageUpload.CopyToAsync(fs);
+            }
+
+            _context.Update(oldProduct);
+            await _context.SaveChangesAsync();
+
+            TempData["Success"] = "The product has been edited!";
+
+            return RedirectToAction("Index");
         }
     }
 }

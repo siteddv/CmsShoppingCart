@@ -27,3 +27,7 @@ function readUrl(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+$("#ImageUpload").change(function () {
+    readUrl(this);
+});
