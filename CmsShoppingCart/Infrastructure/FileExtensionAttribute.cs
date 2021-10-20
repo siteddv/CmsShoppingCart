@@ -10,8 +10,6 @@ namespace CmsShoppingCart.Model
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            base.IsValid(value, validationContext);
-
             var context = (CmsShoppingCartContext)validationContext.GetService(typeof(CmsShoppingCartContext));
             var errorMessage = "Allowed extensions are jpg and png.";
 

@@ -51,7 +51,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             return View();
         }
 
-        // POST /admin/pages/create
+        // POST /admin/products/create
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
@@ -77,7 +77,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             if(product.ImageUpload != null)
             {
                 var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/products");
-                imageName = $"{product.ImageUpload.FileName}_{Guid.NewGuid().ToString()}";
+                imageName = $"{Guid.NewGuid().ToString()}_{product.ImageUpload.FileName}";
                 var filePath = Path.Combine(uploadDir, imageName);
 
                 using (var fs = new FileStream(filePath, FileMode.Create))
@@ -90,6 +90,17 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             TempData["Success"] = "The product has been added!";
 
             return RedirectToAction("Index");
+        }
+
+        // GET /admin/products/details/id
+        public async Task<IActionResult> Details(int id)
+        {
+            var product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+                return NotFound();
+
+            return View(product);
         }
     }
 }
