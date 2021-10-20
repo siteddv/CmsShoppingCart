@@ -23,7 +23,6 @@ namespace CmsShoppingCart.Model
         [Column(TypeName = "decimal(18,2)")]
         public decimal Price { get; set; }
 
-        [FileExtension]
         public string Image { get; set; }
 
         [Display(Name = "Category")]
@@ -34,6 +33,7 @@ namespace CmsShoppingCart.Model
         public Category Category { get; set; }
 
         [NotMapped]
+        [FileExtension]
         public IFormFile ImageUpload { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CmsShoppingCart.Areas.Admin.Controllers
@@ -14,19 +15,26 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly CmsShoppingCartContext _context;
-        private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductsController(CmsShoppingCartContext context)
+        public ProductsController(CmsShoppingCartContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET /admin/products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1)
         {
-            var pagesList = await _context.Products.Include(x => x.Category).ToListAsync();
+            var pageSize = 6;
 
-            return View(pagesList);
+            var products = await _context.Products
+                .Include(x => x.Category)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return View(products);
         }
 
         // GET /admin/products/create
@@ -43,6 +51,10 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Product product)
         {
+            var categories = await _context.Categories.ToListAsync();
+
+            ViewBag.CategoryId = new SelectList(categories, "Id", "Name");
+
             if (!ModelState.IsValid)
                 return View(product);
 
@@ -60,7 +72,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
 
             if(product.ImageUpload != null)
             {
-                var uploadDir = Path.Combine(webHostEnvironment.WebRootPath, "media/products");
+                var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/products");
                 imageName = $"{product.ImageUpload.FileName}_{Guid.NewGuid().ToString()}";
                 var filePath = Path.Combine(uploadDir, imageName);
 
