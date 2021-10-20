@@ -27,7 +27,7 @@ namespace CmsShoppingCart.Model
 
         [Display(Name = "Category")]
         [Range(1, int.MaxValue, ErrorMessage = "You must choose a category")]
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
