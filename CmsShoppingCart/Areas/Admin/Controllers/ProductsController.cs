@@ -34,6 +34,10 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
+            ViewBag.PageNumber = pageNumber;
+            ViewBag.PageRange = pageSize;
+            ViewBag.TotalPages = (int)Math.Ceiling((decimal)_context.Products.Count() / pageSize);
+
             return View(products);
         }
 
