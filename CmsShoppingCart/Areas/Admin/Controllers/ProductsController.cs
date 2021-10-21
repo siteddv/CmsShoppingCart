@@ -147,7 +147,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             {
                 var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/products");
 
-                if(!string.Equals(newProduct.ImageUpload.FileName, "noimage.png"))
+                if (!string.Equals(newProduct.ImageUpload.FileName, "noimage.png"))
                 {
                     var oldImagePath = Path.Combine(uploadDir, oldProduct.Image);
                     if (System.IO.File.Exists(oldImagePath))
@@ -158,6 +158,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
 
                 var imageName = $"{Guid.NewGuid()}_{newProduct.ImageUpload.FileName}";
                 oldProduct.Image = imageName;
+                oldProduct.CategoryId = newProduct.CategoryId;
                 var filePath = Path.Combine(uploadDir, imageName);
 
                 using (var fs = new FileStream(filePath, FileMode.Create))
