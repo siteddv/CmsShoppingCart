@@ -28,7 +28,7 @@ namespace CmsShoppingCart.Controllers
             if (page == null)
                 return NotFound();
 
-            return View();
+            return View(page);
         }
     }
 }
