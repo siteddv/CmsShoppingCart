@@ -17,23 +17,14 @@ namespace CmsShoppingCart.Controllers
         }
 
         // GET /products/p
-        public async Task<IActionResult> Index(int p = 1)
+        public async Task<IActionResult> Index()
         {
-            var pageSize = 6;
-
-            var products = await _context.Products
-                .Skip((p - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            ViewBag.PageNumber = p;
-            ViewBag.PageRange = pageSize;
-            ViewBag.TotalPages = (int)Math.Ceiling((decimal)_context.Products.Count() / pageSize);
+            var products = await _context.Products.ToListAsync();
 
             return View(products);
         }
 
-        // GET /products/category/p
+        // GET /products/categorySlug/p
         public async Task<IActionResult> ProductsByCategory(string categorySlug, int p = 1)
         {
             var category = await _context.Categories
@@ -41,7 +32,7 @@ namespace CmsShoppingCart.Controllers
                 .FirstOrDefaultAsync();
 
             if (category == null)
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
 
             var pageSize = 6;
 
@@ -55,6 +46,7 @@ namespace CmsShoppingCart.Controllers
 
             ViewBag.PageNumber = p;
             ViewBag.PageRange = pageSize;
+            ViewBag.CategorySlug = categorySlug;
 
             var categoryProductsCount = _context.Products
                 .Where(p => p.CategoryId == category.Id)

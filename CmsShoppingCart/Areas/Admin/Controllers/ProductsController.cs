@@ -147,7 +147,7 @@ namespace CmsShoppingCart.Areas.Admin.Controllers
             {
                 var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, "media/products");
 
-                if (!string.Equals(newProduct.ImageUpload.FileName, "noimage.png"))
+                if (!string.Equals(newProduct.ImageUpload.FileName, "noimage.png") && oldProduct.Image != null)
                 {
                     var oldImagePath = Path.Combine(uploadDir, oldProduct.Image);
                     if (System.IO.File.Exists(oldImagePath))
