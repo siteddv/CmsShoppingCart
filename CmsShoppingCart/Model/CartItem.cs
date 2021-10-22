@@ -19,5 +19,7 @@ namespace CmsShoppingCart.Model
             Quantity = 1;
             Image = product.Image;
         }
+
+        public CartItem() { }
     }
 }
