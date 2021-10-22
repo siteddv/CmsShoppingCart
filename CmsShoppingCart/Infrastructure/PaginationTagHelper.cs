@@ -96,8 +96,8 @@ namespace CmsShoppingCart.Infrastructure
         {
             content.Append(" <ul class='pagination'>");
 
-            if(PageNumber != -1)
-                content.Append($"<li class='page-item'><a class='page-link' href='{PageTarget}/1'>{PageFirst}</a></li>");
+            if(PageNumber != 1)
+                content.Append($"<li class='page-item'><a class='page-link' href='{PageTarget}?p=1'>{PageFirst}</a></li>");
         }
 
         private void InitDefaults()
